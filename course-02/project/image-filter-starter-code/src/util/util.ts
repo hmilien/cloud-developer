@@ -22,6 +22,11 @@ export async function filterImageFromURL(inputURL: string): Promise<string>{
     });
 }
 
+export function validURL(str:string) :boolean {
+    var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+    return regex .test(str);
+  }
+  
 // deleteLocalFiles
 // helper function to delete files on the local disk
 // useful to cleanup after tasks

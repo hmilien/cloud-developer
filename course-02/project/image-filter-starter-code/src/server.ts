@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import {filterImageFromURL, deleteLocalFiles, validURL} from './util/util';
 
 (async () => {
 
@@ -39,7 +39,8 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   {
     let {image_url} = req.query;
 
-    //const image_url = "/test"
+    if(!validURL(image_url))
+      return res.status(422).send({ message: 'Please provide a valid url'});
 
     if(!image_url)
         return res.status(400).send({ message: 'Image url is required or malformed' });
@@ -49,26 +50,9 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     if(!image)
       return res.status(500).send({ message: 'Failed to get the requested image'});
 
-    return res.status(200).send(image);
-    
-  } );
-  
-  
-  // Displays a simple message to the user
-  app.get( '/', 
-  async ( req, res ) => 
-  {
-    const image_url = "/test"
+    res.status(200).sendFile(image)
 
-    if(!image_url)
-        return res.status(400).send({ message: 'Image url is required or malformed' });
-    
-    const image =  filterImageFromURL(image_url);
-  
-    if(!image)
-      return res.status(500).send({ message: 'Failed to get the requested image'});
-
-    return res.status(200).send(image);
+    res.on("finish", ()=>{deleteLocalFiles([image.replace(/\//g, "\\")]);});
     
   } );
   
