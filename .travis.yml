@@ -13,11 +13,12 @@ install:
 before_script:
   - echo "no tests"
   - cd microservices/udacity-c3-deployment/docker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 script:
   - docker --version # print the version for logging
   - docker-compose -f docker-compose-build.yaml build --parallel
   - docker-compose -f docker-compose-build.yaml push
 after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  
 
