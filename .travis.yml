@@ -12,9 +12,9 @@ install:
 # Scripts to be run such as tests
 before_script:
   - echo "no tests"
+  - cd cloud-developer/microservices
 
 script:
-  - build.sh
   - docker --version # print the version for logging
   - docker-compose -f docker-compose-build.yaml build --parallel
   - docker-compose -f docker-compose-build.yaml push
