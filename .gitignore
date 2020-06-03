@@ -2,3 +2,4 @@ microservices/set_env.bat
 microservices/set_env.sh
 nd9990-c3-microservices-exercises
 microservices/udacity-c3-deployment/k8s/env-secret.yaml
+microservices/udacity-c3-deployment/k8s/env-secret.yaml
