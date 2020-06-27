@@ -3,12 +3,14 @@ import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } f
 import * as AWS  from 'aws-sdk'
 const docClient = new AWS.DynamoDB.DocumentClient()
 const todoTable = process.env.TODO_TABLE
+
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    console.log('Processing event: ', event)
+    console.log('Processing event, create todo: ', event)
+   
     const newTodo: CreateTodoRequest = JSON.parse(event.body)
-    
+
     // TODO: handle authentification
     const authorization = event.headers.Authorization
     const split = authorization.split(' ')
