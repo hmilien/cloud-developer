@@ -12,10 +12,10 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     const newTodo: CreateTodoRequest = JSON.parse(event.body)
 
     // TODO: handle authentification
-    const authorization = event.headers.Authorization
+  /*   const authorization = event.headers.Authorization
     const split = authorization.split(' ')
     const jwtToken = split[1]
-
+ */
     await docClient.put({
       TableName: todoTable,
       Item: newTodo
