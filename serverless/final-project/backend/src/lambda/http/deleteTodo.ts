@@ -1,5 +1,8 @@
 import 'source-map-support/register'
 import * as AWS  from 'aws-sdk'
+import { createLogger } from '../../utils/logger'
+const logger = createLogger('todo')
+
 const docClient = new AWS.DynamoDB.DocumentClient()
 const todoTable = process.env.TODO_TABLE
 
@@ -13,6 +16,8 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     TableName: todoTable,
     Key:{ "id": todoId}
   }).promise()
+
+  logger.info('Todo deleted : ',todoId)
 
   return {
     statusCode: 202,

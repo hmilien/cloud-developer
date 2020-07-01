@@ -1,7 +1,9 @@
 import 'source-map-support/register'
 import * as AWS  from 'aws-sdk'
-
 import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } from 'aws-lambda'
+import { createLogger } from '../../utils/logger'
+
+const logger = createLogger('todo')
 
 const bucketName = process.env.IMAGES_S3_BUCKET
 const urlExpiration = process.env.SIGNED_URL_EXPIRATION
@@ -14,6 +16,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   console.log('Caller event - PresignedUrl', event)
   
   const url = getUploadUrl(todoId)
+
+  logger.info('Url generated : ',url)
+
   return {
     statusCode: 201,
     body: JSON.stringify({

@@ -1,12 +1,12 @@
 import 'source-map-support/register'
-
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
-
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-
+import { createLogger } from '../../utils/logger'
 import * as AWS  from 'aws-sdk'
+
 const docClient = new AWS.DynamoDB.DocumentClient()
 const todoTable = process.env.TODO_TABLE
+const logger = createLogger('todo')
 
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -26,6 +26,8 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     ReturnValues: "UPDATED_NEW"
     
   }).promise()
+
+  logger.info('todos updated for todo id: ',todoId)
 
   return {
     statusCode: 202,
