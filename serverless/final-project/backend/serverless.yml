@@ -9,17 +9,14 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
   environment:
       TODOS_TABLE: Todos-${self:provider.stage}
-      IMAGES_S3_BUCKET: serverless-todo-images-${self:provider.stage}
+      IMAGES_S3_BUCKET: serverless-todo1-images-${self:provider.stage}
       SIGNED_URL_EXPIRATION: 300
-      AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
-      AUTH_0_SECRET_FIELD: auth0Secret
-
 iamRoleStatements:
   - Effect: Allow
     Action:
@@ -43,7 +40,6 @@ functions:
       - http:
           method: get
           path: todos
-          cors: true
 
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
@@ -118,13 +114,13 @@ resources:
         TableName: ${self:provider.environment.TODOS_TABLE}
 
     RequestBodyValidator:
-    Type: AWS::ApiGateway::RequestValidator
-    Properties:
-      Name: 'request-body-validator'
-      RestApiId:
-        Ref: ApiGatewayRestApi
-      ValidateRequestBody: true
-      ValidateRequestParameters: false
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false
 
     AttachmentsBucket:
       Type: AWS::S3::Bucket
