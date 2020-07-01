@@ -8,7 +8,7 @@ import { getUserId } from '../utils'
 
 const logger = createLogger('todo')
 const docClient = new AWS.DynamoDB.DocumentClient()
-const todoTable = process.env.TODO_TABLE
+const todoTable = process.env.TODOS_TABLE
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     console.log('Processing event, create todo: ', event)

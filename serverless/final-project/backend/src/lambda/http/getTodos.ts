@@ -5,13 +5,14 @@ import { getUserId } from '../utils'
 import { createLogger } from '../../utils/logger'
 
 const docClient = new AWS.DynamoDB.DocumentClient()
-const todoTable = process.env.TODO_TABLE
+const todoTable = process.env.TODOS_TABLE
 const userIdIndex = process.env.USER_ID_INDEX
 const logger = createLogger('todo')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Processing getTodo event: ', event)
 
+  console.log('Headers: ', event.headers) 
   const userId = getUserId(event)
 
   const result = await docClient.query({
@@ -37,7 +38,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   logger.info('no todos found for user id: ',userId)
 
   return {
-    statusCode: 404,
+    statusCode: 200,
     headers: {
       'Access-Control-Allow-Origin': '*'
     },

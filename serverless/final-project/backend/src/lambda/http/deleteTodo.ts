@@ -4,7 +4,7 @@ import { createLogger } from '../../utils/logger'
 const logger = createLogger('todo')
 
 const docClient = new AWS.DynamoDB.DocumentClient()
-const todoTable = process.env.TODO_TABLE
+const todoTable = process.env.TODOS_TABLE
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } from 'aws-lambda'
 

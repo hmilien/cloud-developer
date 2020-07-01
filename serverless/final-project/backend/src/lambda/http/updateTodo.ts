@@ -5,7 +5,7 @@ import { createLogger } from '../../utils/logger'
 import * as AWS  from 'aws-sdk'
 
 const docClient = new AWS.DynamoDB.DocumentClient()
-const todoTable = process.env.TODO_TABLE
+const todoTable = process.env.TODOS_TABLE
 const logger = createLogger('todo')
 
 
