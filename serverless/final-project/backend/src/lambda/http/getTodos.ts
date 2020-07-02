@@ -24,6 +24,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     }
   }).promise()
   
+  console.log('Processing results: ', result.Items)
+
+
   if (result.Count !== 0) {
     logger.info('todos found for user id: ',userId)
     return {
@@ -31,14 +34,15 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify(result.Items[0])
+      body: JSON.stringify({
+        items: result.Items})
     }
   }
   
   logger.info('no todos found for user id: ',userId)
 
   return {
-    statusCode: 200,
+    statusCode: 204,
     headers: {
       'Access-Control-Allow-Origin': '*'
     },

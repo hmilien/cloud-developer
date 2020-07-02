@@ -14,7 +14,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
   await docClient.delete({
     TableName: todoTable,
-    Key:{ "id": todoId}
+    Key:{ "todoId": todoId}
   }).promise()
 
   logger.info('Todo deleted : ',todoId)

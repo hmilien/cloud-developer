@@ -17,7 +17,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     const parsedBody: CreateTodoRequest = JSON.parse(event.body)
 
     const newTodo = {
-      id: todoId,
+      todoId: todoId,
       userId: getUserId(event),
       ...parsedBody
     }
@@ -34,8 +34,6 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true
       },
-      body: JSON.stringify({
-        newTodo
-      })
+      body: ""
     }
 }

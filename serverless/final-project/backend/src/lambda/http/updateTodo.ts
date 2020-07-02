@@ -15,9 +15,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
     await docClient.update({
     TableName: todoTable,
-    Key:{ "id": todoId
+    Key:{ "todoId": todoId
     },
-    UpdateExpression: "set name = :num, dueDate = :duedate, done = :done",
+    UpdateExpression: "set name = :name, dueDate = :duedate, done = :done",
     ExpressionAttributeValues: {
         ":name": updatedTodo.name,
         ":dueDate": updatedTodo.dueDate,
@@ -36,7 +36,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       'Access-Control-Allow-Credentials': true
     },
     body: JSON.stringify({
-      updatedTodo
+      items:updatedTodo
     })
   }
 }
