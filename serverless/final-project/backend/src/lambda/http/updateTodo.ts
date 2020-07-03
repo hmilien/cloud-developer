@@ -11,7 +11,7 @@ const logger = createLogger('todo')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const todoId = event.pathParameters.todoId
-  const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
+  const item: UpdateTodoRequest = JSON.parse(event.body)
 
     await docClient.update({
     TableName: todoTable,
@@ -19,9 +19,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     },
     UpdateExpression: "set name = :name, dueDate = :duedate, done = :done",
     ExpressionAttributeValues: {
-        ":name": updatedTodo.name,
-        ":dueDate": updatedTodo.dueDate,
-        ":done": updatedTodo.done
+        ":name": item.name,
+        ":dueDate": item.dueDate,
+        ":done": item.done
     },
     ReturnValues: "UPDATED_NEW"
     
@@ -36,7 +36,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       'Access-Control-Allow-Credentials': true
     },
     body: JSON.stringify({
-      items:updatedTodo
+      items:item
     })
   }
 }

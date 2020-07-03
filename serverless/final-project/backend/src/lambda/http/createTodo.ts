@@ -16,17 +16,34 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     const todoId = uuid.v4()
     const parsedBody: CreateTodoRequest = JSON.parse(event.body)
 
-    const newTodo = {
+    if (!parsedBody.name){
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: "name is required"
+      }
+    }
+     
+    const item = {
       todoId: todoId,
       userId: getUserId(event),
+      createdAt: new Date().toLocaleTimeString(),
       ...parsedBody
     }
+
+    console.log('Processing event, Item: ', item)
+
     await docClient.put({
       TableName: todoTable,
-      Item: newTodo
+      Item: item
     }).promise()
 
-    logger.info('New Item added : ',newTodo)
+   
+
+    logger.info('New Item added : ',item)
 
     return {
       statusCode: 201,
@@ -34,6 +51,8 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true
       },
-      body: ""
+      body: JSON.stringify({
+        items: item})
     }
+    
 }

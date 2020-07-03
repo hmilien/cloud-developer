@@ -19,6 +19,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
   logger.info('Url generated : ',url)
 
+  
   return {
     statusCode: 201,
     headers: {
