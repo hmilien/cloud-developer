@@ -1,12 +1,11 @@
 import 'source-map-support/register'
 import * as AWS  from 'aws-sdk'
 import { createLogger } from '../../utils/logger'
-import { getUserId } from '../utils'
+import { getUserId, getTodoById} from '../utils'
 const logger = createLogger('todo')
 
 const docClient = new AWS.DynamoDB.DocumentClient()
 const todoTable = process.env.TODOS_TABLE
-const userIdIndex = process.env.USER_ID_INDEX
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } from 'aws-lambda'
 
@@ -16,21 +15,13 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   const todoId = event.pathParameters.todoId
   const userId= getUserId(event)
   
-  const results = await docClient.query({
-    TableName : todoTable,
-    IndexName : userIdIndex,
-    KeyConditionExpression: 'todoId = :todoId and userId = :userId',
-    ExpressionAttributeValues: {
-        ':todoId': todoId,
-        ':userId': userId
-    }
-  }).promise()
+  const item = await getTodoById(userId,todoId)
 
-  console.log('Processing Query for delete: ', results)
+  console.log('Processing Query for delete: ', item)
 
   await docClient.delete({
     TableName: todoTable,
-    Key:{ "userId": userId, "createdAt":results.Items[0].createdAt}
+    Key:{ "userId": userId, "createdAt":item.createdAt}
   }).promise()
 
   logger.info('Todo deleted : ',todoId)
