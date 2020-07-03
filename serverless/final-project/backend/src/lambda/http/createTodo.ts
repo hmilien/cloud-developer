@@ -34,14 +34,10 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       ...parsedBody
     }
 
-    console.log('Processing event, Item: ', item)
-
     await docClient.put({
       TableName: todoTable,
       Item: item
     }).promise()
-
-   
 
     logger.info('New Item added : ',item)
 
