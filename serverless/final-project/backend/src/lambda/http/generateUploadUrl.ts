@@ -2,6 +2,7 @@ import 'source-map-support/register'
 import * as AWS  from 'aws-sdk'
 import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } from 'aws-lambda'
 import { createLogger } from '../../utils/logger'
+import { getUserId, setAttachmentUrl} from '../utils'
 
 const logger = createLogger('todo')
 
@@ -13,13 +14,15 @@ const s3 = new AWS.S3({
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const todoId = event.pathParameters.todoId
+  const userId = getUserId(event)
   console.log('Caller event - PresignedUrl', event)
   
   const url = getUploadUrl(todoId)
 
   logger.info('Url generated : ',url)
-
   
+  await setAttachmentUrl(userId,todoId,url)
+
   return {
     statusCode: 201,
     headers: {
@@ -38,3 +41,4 @@ function getUploadUrl(todoId: string) {
     Expires: urlExpiration
   })
 }
+
