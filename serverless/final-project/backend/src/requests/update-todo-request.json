@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "todo",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "duedate": {
+      "type": "string"
+    },
+    "done": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "duedate",
+    "done"
+  ],
+  "additionalProperties": false
+}

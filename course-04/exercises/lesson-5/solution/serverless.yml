@@ -65,13 +65,12 @@ provider:
       Resource: !GetAtt KMSKey.Arn
 
 custom:
-  topicName: imagesTopic-${self:provider.stage}
   documentation:
     api:
       info:
         version: v1.0.0
-        title: Udagram API
-        description: Serverless application for images sharing
+        title: TODO API
+        description: Serverless application for todo application
     models:
       - name: GroupRequest
         contentType: application/json
