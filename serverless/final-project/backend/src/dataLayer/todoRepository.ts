@@ -71,11 +71,28 @@ export async function  getTodoById(userId:string,todoId:string ): Promise<TodoIt
         createdAt: new Date().toLocaleTimeString(),
         ...request
       }
-      
+
      await docClient.put({
         TableName: todoTable,
         Item: item
       }).promise()
 
       return item as TodoItem
+  }
+
+  export async function getTodos(userId:string):Promise<TodoItem[]>{
+
+    const result = await docClient.query({
+        TableName : todoTable,
+        IndexName : userIdIndex,
+        KeyConditionExpression: 'userId = :userId',
+        ExpressionAttributeValues: {
+            ':userId': userId
+        }
+    }).promise()
+
+    if(result.Items.length > 0)
+        return result.Items as TodoItem[]
+    else
+        return[]
   }
