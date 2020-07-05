@@ -1,7 +1,9 @@
 import 'source-map-support/register'
 import * as AWS  from 'aws-sdk'
 import { createLogger } from '../../utils/logger'
-import { getUserId, getTodoById} from '../utils'
+import { getUserId} from '../utils'
+import { getTodoById } from "../../dataLayer/todoRepository";
+
 const logger = createLogger('todo')
 
 const docClient = new AWS.DynamoDB.DocumentClient()

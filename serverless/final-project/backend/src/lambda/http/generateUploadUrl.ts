@@ -2,7 +2,8 @@ import 'source-map-support/register'
 import * as AWS  from 'aws-sdk'
 import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } from 'aws-lambda'
 import { createLogger } from '../../utils/logger'
-import { getUserId, setAttachmentUrl} from '../utils'
+import { getUserId} from '../utils'
+import { setAttachmentUrl } from "../../dataLayer/todoRepository";
 
 const logger = createLogger('todo')
 

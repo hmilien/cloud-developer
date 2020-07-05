@@ -3,7 +3,8 @@ import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } f
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
 import { createLogger } from '../../utils/logger'
 import * as AWS  from 'aws-sdk'
-import { getUserId, getTodoById} from '../utils'
+import { getUserId} from '../utils'
+import { getTodoById } from "../../dataLayer/todoRepository";
 
 const docClient = new AWS.DynamoDB.DocumentClient()
 const todoTable = process.env.TODOS_TABLE
