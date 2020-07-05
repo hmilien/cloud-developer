@@ -23,7 +23,6 @@ export async function  getTodoById(userId:string,todoId:string ): Promise<TodoIt
   export async function  setAttachmentUrl(userId: string, todoId: string, attachmentUrl:string){
     const item = await getTodoById(userId, todoId)
     item.attachmentUrl = attachmentUrl;
-  
     await docClient.update({
       TableName: todoTable,
       Key:{ "userId": userId, "createdAt":item.createdAt},

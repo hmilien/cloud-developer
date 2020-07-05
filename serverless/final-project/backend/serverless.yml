@@ -5,6 +5,7 @@ plugins:
   - serverless-webpack
   - serverless-reqvalidator-plugin
   - serverless-iam-roles-per-function
+  - serverless-aws-documentation
 
 provider:
   name: aws
@@ -242,7 +243,7 @@ resources:
         RestApiId:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true
-        ValidateRequestParameters: false
+        ValidateRequestParameters: true
 
     AttachmentsBucket:
       Type: AWS::S3::Bucket

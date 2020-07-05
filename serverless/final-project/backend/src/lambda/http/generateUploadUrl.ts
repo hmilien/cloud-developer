@@ -9,6 +9,7 @@ const logger = createLogger('todo')
 
 const bucketName = process.env.IMAGES_S3_BUCKET
 const urlExpiration = process.env.SIGNED_URL_EXPIRATION
+
 const s3 = new AWS.S3({
   signatureVersion: 'v4'
 })
@@ -22,7 +23,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
   logger.info('Url generated : ',url)
   
-  await setAttachmentUrl(userId,todoId,url)
+  const attachmentUrl = `https://${bucketName}.s3.amazonaws.com/${todoId}`
+   
+  await setAttachmentUrl(userId,todoId,attachmentUrl)
 
   return {
     statusCode: 201,

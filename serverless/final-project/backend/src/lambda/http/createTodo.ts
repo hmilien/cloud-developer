@@ -14,10 +14,22 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     const todoId = uuid.v4()
     const userId = getUserId(event)
     const parsedBody: CreateTodoRequest = JSON.parse(event.body)
-  
+    
+    if(!parsedBody.name){
+      return {
+        statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: "name is required"
+      }
+    }
+
     const item = await createTodo(userId,todoId,parsedBody)
 
     logger.info('New Item added : ',item)
+    console.log('Processing event, new Todo: ', item)
 
     return {
       statusCode: 201,

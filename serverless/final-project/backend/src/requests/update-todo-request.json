@@ -18,5 +18,5 @@
     "duedate",
     "done"
   ],
-  "additionalProperties": false
+  "additionalProperties": true
 }
